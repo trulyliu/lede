@@ -52,6 +52,14 @@ jobs:
 
       - name: Generate configuration file
         run: make defconfig
+          cd package
+          git clone https://github.com/destan19/OpenAppFilter.git
+          cd -
+          echo "CONFIG_PACKAGE_appfilter=y" >>.config
+          echo "CONFIG_PACKAGE_kmod-oaf=y" >>.config
+          echo "CONFIG_PACKAGE_luci-i18n-oaf-zh-cn=y" >>.config
+          echo "CONFIG_PACKAGE_luci-app-oaf=y" >>.config
+          echo "CONFIG_PACKAGE_libubox-lua=y" >>.config
 
       - name: Make download
         run: |
@@ -76,8 +84,7 @@ jobs:
           mkdir -p ./artifact/package
           mkdir -p ./artifact/buildinfo
           rm -rf $(find ./bin/targets/ -type d -name "packages")
-          cp -rf $(find ./bin/targets/ -type f) ./artifact/firmware/
-          cp -rf $(find ./bin/packages/ -type f -name "*.ipk") ./artifact/package/
+          cp -rf $(find ./bin/targets/ -type f -name "*upgrade*") ./artifact/firmware/
           cp -rf $(find ./bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") ./artifact/buildinfo/
 
       - name: Deliver buildinfo
