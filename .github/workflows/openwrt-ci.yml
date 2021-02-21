@@ -51,7 +51,8 @@ jobs:
           ./scripts/feeds install -a
 
       - name: Generate configuration file
-        run: make defconfig
+        run:|
+          make defconfig
           cd package
           git clone https://github.com/destan19/OpenAppFilter.git
           cd -
